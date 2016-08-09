@@ -50,21 +50,19 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NNu-Mn-hEB">
-                                <rect key="frame" x="50" y="70" width="500" height="305"/>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NNu-Mn-hEB">
+                                <rect key="frame" x="50" y="70" width="500" height="350"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="NNu-Mn-hEB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="1bE-hJ-dAQ"/>
-                            <constraint firstItem="NNu-Mn-hEB" firstAttribute="top" secondItem="wfy-db-euE" secondAttribute="bottom" constant="200" id="2jE-Zq-Xil"/>
                             <constraint firstItem="NNu-Mn-hEB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="30" id="BeR-he-RrO"/>
                             <constraint firstItem="NNu-Mn-hEB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="30" id="Nqx-BH-By8"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="JYK-Ut-KET" secondAttribute="bottom" constant="100" id="Vd7-ZK-YES"/>
                             <constraint firstItem="JYK-Ut-KET" firstAttribute="top" secondItem="NNu-Mn-hEB" secondAttribute="bottom" constant="50" id="Vur-fy-kmT"/>
                             <constraint firstItem="JYK-Ut-KET" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dn4-76-SmY"/>
                             <constraint firstAttribute="trailingMargin" secondItem="NNu-Mn-hEB" secondAttribute="trailing" constant="30" id="m51-Dz-qVz"/>
-                            <constraint firstItem="NNu-Mn-hEB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="rgD-Ys-X5y"/>
                         </constraints>
                     </view>
                     <connections>

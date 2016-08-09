@@ -9,10 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let imageMax = 3        // イメージの最大数
-    var index = 0;          // インデックス
-    var timer: NSTimer?     // タイマー
-    let tagImageView = 1    // イメージビュータグ（イメージビューにタッチイベントを追加するため）
+    var imageMax = 3            // イメージの最大数
+    var index = 0;              // インデックス
+    var timer: NSTimer?         // タイマー
+    let tagImageView = 1        // イメージビュータグ（イメージビューにタッチイベントを追加するため）
+    var playFlag:Bool = false   // 再生中フラグ
+    var imageList:[String] = [] // イメージリスト
     
     // イメージビュー
     @IBOutlet var imageView: UIImageView!
@@ -20,13 +22,13 @@ class ViewController: UIViewController {
     // 次へボタンをタップ
     @IBAction func nextBtn(sender: AnyObject) {
         index = nextImg(index, max: imageMax)
-        setImage(index + 1)
+        setImage(index)
     }
     
     // 戻るボタンをタップ
     @IBAction func preBtn(sender: AnyObject) {
         index = preImg(index, max: imageMax)
-        setImage(index + 1)
+        setImage(index)
     }
     
     // 次へボタン
@@ -43,18 +45,39 @@ class ViewController: UIViewController {
             playBtm.setTitle("停止", forState: .Normal)
             nextBottom.enabled = false
             preBottom.enabled = false
+            playFlag = true
         } else {
             stopTimer()
             playBtm.setTitle("再生", forState: .Normal)
             nextBottom.enabled = true
             preBottom.enabled = true
+            playFlag = false
         }
     }
 
+    // イメージファイルの一覧を取得
+    func getImageList() {
+        let manager = NSFileManager.defaultManager()
+        
+        let path = NSBundle.mainBundle().resourcePath
+        do {
+            let list = try manager.contentsOfDirectoryAtPath(path!)
+            for filename in list {
+                if filename.hasSuffix("jpeg") {
+                    imageList.append(filename)
+                }
+            }
+            imageMax = imageList.count
+        } catch  {
+            print("fileList err")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        initImageView()
+        getImageList()  // ファイルリスト取得
+        initImageView() // イメージビュー初期化
         
     }
     
@@ -65,10 +88,7 @@ class ViewController: UIViewController {
     
     // イメージ表示
     func setImage(num :Int) {
-        let imgStr = "\(num).jpeg"
-        //print(imgStr)
-        let image:UIImage? = UIImage(named: imgStr)
-        
+        let image:UIImage? = UIImage(named: imageList[num])
         imageView.image = image
     }
     
@@ -99,7 +119,7 @@ class ViewController: UIViewController {
         imageView.userInteractionEnabled = true
         imageView.tag = tagImageView
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
-        setImage(1)
+        setImage(index)
     
     }
 
@@ -111,7 +131,7 @@ class ViewController: UIViewController {
     // スライドショー用タイマー更新
     @objc func update(timer: NSTimer) {
         index = nextImg(index, max: imageMax)
-        setImage(index + 1)
+        setImage(index)
     }
     
     // スライドショー用タイマー停止
@@ -124,7 +144,7 @@ class ViewController: UIViewController {
         // segueから遷移先のResultViewControllerを取得する
         let resultViewController:ResultViewController = segue.destinationViewController as! ResultViewController
         // 遷移先のResultViewControllerで宣言しているx, yに値を代入して渡す
-        resultViewController.imageName = "\(index + 1).jpeg"
+        resultViewController.imageName = imageList[index]
     }
     
     // イメージビューにタッチイベントを追加
@@ -133,6 +153,7 @@ class ViewController: UIViewController {
         for touch: UITouch in touches {
             let tag = touch.view!.tag
             if tag == tagImageView {
+                stopTimer()
                 performSegueWithIdentifier("toResultViewController",sender: nil)
             }
         }
@@ -140,6 +161,9 @@ class ViewController: UIViewController {
     
     // 戻る処理
     @IBAction func unwind(segue: UIStoryboardSegue) {
+        if true == playFlag {
+            startTimer()
+        }
     }
 
 }
